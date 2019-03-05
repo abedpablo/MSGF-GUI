@@ -1,0 +1,106 @@
+# This file is used to specify modifications
+# # for comments
+#
+# Max Number of Modifications per peptide 
+# If this value is large, the search takes long.
+
+NumMods=3
+
+# To input a modification, use the following command:
+# Mass or CompositionStr, Residues, ModType, Position, Name (all the five fields are required).
+# CompositionStr (C[Num]H[Num]N[Num]O[Num]S[Num]P[Num]Br[Num]Cl[Num]Fe[Num])
+# 	- C (Carbon), H (Hydrogen), N (Nitrogen), O (Oxygen), S (Sulfer), P (Phosphorus), Br (Bromine), Cl (Chlorine), Fe (Iron), and Se (Selenium) are allowed.
+# 	- Negative numbers are allowed.
+# 	- E.g. C2H2O1 (valid), H2C1O1 (invalid) 
+# Mass can be used instead of CompositionStr. It is important to specify accurate masses (integer masses are insufficient).
+# 	- E.g. 15.994915 
+# Residues: affected amino acids (must be upper letters)
+# 	- Must be uppor letters or *
+# 	- Use * if this modification is applicable to any residue. 
+# 	- * should not be "anywhere" modification (e.g. "15.994915, *, opt, any, Oxidation" is not allowed.) 
+# 	- E.g. NQ, *
+# ModType: "fix" for fixed modifications, "opt" for variable modifications (case insensitive)
+# Position: position in the peptide where the modification can be attached. 
+# 	- One of the following five values should be used:
+# 	- any (anywhere), N-term (peptide N-term), C-term (peptide C-term), Prot-N-term (protein N-term), Prot-C-term (protein C-term) 
+# 	- Case insensitive
+# 	- "-" can be omitted
+# 	- E.g. any, Any, Prot-n-Term, ProtNTerm => all valid
+# Name: name of the modification (Unimod PSI-MS name)
+# 	- For proper mzIdentML output, this name should be the same as the Unimod PSI-MS name
+# 	- E.g. Phospho, Acetyl
+# 	- Visit http://www.unimod.org to get PSI-MS names.
+
+
+##########################################
+# Parameter descriptions - please go to: #
+##########################################
+
+# http://omics.pnl.gov/software/MS-GF+
+
+#################################################
+# Modifications and MSGF+ search configurations #
+#################################################
+
+# comment out modifications not to be used with the '#' symbol
+
+#-# modifications
+
+# C2H3N1O1,C,fix,any,Carbamidomethyl 		# Carbamidomethyl C
+# 144.102063,K,fix,any,iTRAQ4plex	    	# iTRAQ4plex K
+# 144.102063,*,fix,N-term,iTRAQ4plex		# iTRAQ4plex N-term
+# 304.205360,*,fix,N-term,iTRAQ8plex		# iTRAQ8plex N-term
+# 15.9949,M,fix,any,Oxidation			# Oxidation M
+# 229.162932,K,fix,any,TMT6plex			# TMT10/11plex K
+# 229.162932,*,fix,N-term,TMT6plex		# TMT10/11plex N-term
+
+# 42.0106,K,opt,any,Acetyl				# Acetylation K
+# 42.0106,*,opt,N-term,Acetyl			# Acetylation N-term
+# 541.06111,R,opt,any,ADP-Ribosyl		# ADP-Ribosyl R
+# 72.021129,K,opt,any,Carboxyethyl		# Carboxyethyl K
+# 68.026215,K,opt,any,Crotonyl			# Crotonyl K
+# 0.984016,N,opt,any,Deamidated			# Deamidated N
+# 0.984016,Q,opt,any,Deamidated			# Deamidated Q
+# 28.0313,K,opt,any,Dimethyl			# Dimethylation K
+# 28.0313,R,opt,any,Dimethyl			# Dimethylation R
+# 114.042927,K,opt,any,GG				# GlyGly (GG) K
+# 203.079373,S,opt,any,HexNAc			# HexNAc S
+# 203.079373,T,opt,any,HexNAc			# HexNAc T
+# 14.0157,H,opt,any,Methyl				# Methylation H
+# 14.0157,K,opt,any,Methyl				# Methylation K
+# 14.0157,R,opt,any,Methyl				# Methylation R
+# 15.9949,K,opt,any,Oxidation			# Oxidation K
+# 15.9949,M,opt,any,Oxidation			# Oxidation M 
+# 15.9949,P,opt,any,Oxidation			# Oxidation P
+# 79.966331,S,opt,any,Phospho			# Phosphorylation S
+# 79.966331,T,opt,any,Phospho			# Phosphorylation T
+# 79.966331,Y,opt,any,Phospho			# Phosphorylation Y
+# 79.956815,S,opt,any,Sulfo				# Sulfo S
+# 79.956815,T,opt,any,Sulfo				# Sulfo T
+# 229.162932,K,opt,any,TMT6plex			# TMT10/11plex K
+# 229.162932,*,opt,N-term,TMT6plex		# TMT10/11plex N-term
+# 42.04695,K,opt,any,Trimethyl			# Trimethyl K
+
+#-# search parameters
+
+-Xmx6000M
+-t 20ppm
+-ti -1,2
+-tda 1
+-m 0
+-inst 3
+-e 1
+-ntt 2
+-minLength 6
+-maxLength 50
+-minCharge 2
+-maxCharge 5
+-n 1
+-minNumPeaks 5
+-addFeatures 1
+
+#-# build parameters
+
+-Xmx4000M
+edu.ucsd.msjava.msdbsearch.BuildSA
+-tda 2
